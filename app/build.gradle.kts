@@ -40,6 +40,7 @@ dependencies {
 
     val navVersion = "2.7.1"
     val lifecycle_version = "2.7.0"
+    val glideVersion = "4.16.0"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -60,6 +61,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
+    // concat adapter
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+    annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

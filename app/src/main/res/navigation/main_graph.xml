@@ -18,5 +18,22 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.alepagani.movieapp.ui.moviedetail.MovieDetailFragment"
         android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" />
+        tools:layout="@layout/fragment_movie_detail" >
+        <argument
+            android:name="backgroudImgUrl"
+            app:argType="string" />
+        <argument android:name="topImgUrl" />
+        <argument
+            android:name="overview"
+            app:argType="string" />
+        <argument
+            android:name="voteAverage"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="languague"
+            app:argType="string" />
+    </fragment>
 </navigation>
