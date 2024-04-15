@@ -3,13 +3,14 @@ package com.alepagani.movieapp.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.alepagani.movieapp.core.Resource
 import com.alepagani.movieapp.repository.MovieRepository
 import kotlinx.coroutines.Dispatchers
 
 class MovieViewModel(private val repo: MovieRepository): ViewModel() {
 
-    fun getAllMovies() = liveData(Dispatchers.IO) {
+    fun getAllMovies() = liveData(viewModelScope.coroutineContext + Dispatchers.Main) {
         emit(Resource.Loading())
         try {
             emit(Resource.Success(Triple(repo.getUpcomingMovies(),repo.getTopRateMovies(),repo.getPopularMovies())))

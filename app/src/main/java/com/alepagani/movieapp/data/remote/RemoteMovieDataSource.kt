@@ -4,7 +4,7 @@ import com.alepagani.movieapp.application.AppConstants
 import com.alepagani.movieapp.data.model.MovieResponse
 import com.alepagani.movieapp.repository.WebService
 
-class MovieDataSource(private val webService: WebService) {
+class RemoteMovieDataSource(private val webService: WebService) {
 
     suspend fun getUpcomingMovies(): MovieResponse = webService.getUpcomingMovies(AppConstants.API_KEY)
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("androidx.navigation.safeargs.kotlin")
+    kotlin("kapt") version "1.9.23"
 }
 
 android {
@@ -41,6 +42,7 @@ dependencies {
     val navVersion = "2.7.1"
     val lifecycle_version = "2.7.0"
     val glideVersion = "4.16.0"
+    val room_version = "2.6.1"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -57,10 +59,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // ViewModel y Livedate ktx
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version") // ViewModel
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")  // LiveData
 
     // concat adapter
     implementation("androidx.recyclerview:recyclerview:1.3.2")
@@ -68,6 +68,14 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
+
+    // Room
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")   // To use Kotlin annotation processing tool (kapt)
+    implementation("androidx.room:room-ktx:$room_version")  // optional - Kotlin Extensions and Coroutines support for Room
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

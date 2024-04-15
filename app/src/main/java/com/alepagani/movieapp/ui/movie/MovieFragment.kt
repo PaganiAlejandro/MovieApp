@@ -8,13 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.alepagani.movieapp.R
 import com.alepagani.movieapp.core.Resource
-import com.alepagani.movieapp.data.remote.MovieDataSource
+import com.alepagani.movieapp.data.remote.RemoteMovieDataSource
 import com.alepagani.movieapp.databinding.FragmentMovieBinding
 import com.alepagani.movieapp.presentation.MovieViewModel
 import com.alepagani.movieapp.presentation.MovieViewModelFactory
 import com.alepagani.movieapp.repository.MovieRepositoryImpl
 import com.alepagani.movieapp.repository.RetrofitClient
 import 	androidx.recyclerview.widget.ConcatAdapter
+import com.alepagani.movieapp.data.local.AppDataBase
+import com.alepagani.movieapp.data.local.LocalMovieDataSource
 import com.alepagani.movieapp.data.model.Movie
 import com.alepagani.movieapp.ui.movie.adapters.MovieAdapter
 import com.alepagani.movieapp.ui.movie.adapters.concat.PopularConcatAdapter
@@ -26,7 +28,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.onMovieCli
     private lateinit var binding: FragmentMovieBinding
     // INYECCION DE DEPENDENCIAS MANUAL
     private val viewModel by viewModels<MovieViewModel>{MovieViewModelFactory(MovieRepositoryImpl(
-        MovieDataSource(RetrofitClient.webservice)
+        RemoteMovieDataSource(RetrofitClient.webservice),
+        LocalMovieDataSource(AppDataBase.getDataBase(requireContext()).movieDao())
     ))}
     private lateinit var concatAdapter: ConcatAdapter
 
@@ -43,12 +46,12 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MovieAdapter.onMovieCli
                     binding.progresssBar.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
-                    Log.d("Ale", "llego bien ${result.data.first.results}")
+                    Log.d("Ale", "llego bien ${result.data.first}")
                     binding.progresssBar.visibility = View.GONE
                     concatAdapter.apply {
-                        addAdapter(UpcommingConcatAdapter(MovieAdapter(result.data.first.results, this@MovieFragment)))
-                        addAdapter(TopRatedConcatAdapter(MovieAdapter(result.data.second.results, this@MovieFragment)))
-                        addAdapter(PopularConcatAdapter(MovieAdapter(result.data.third.results, this@MovieFragment)))
+                        addAdapter(UpcommingConcatAdapter(MovieAdapter(result.data.first, this@MovieFragment)))
+                        addAdapter(TopRatedConcatAdapter(MovieAdapter(result.data.second, this@MovieFragment)))
+                        addAdapter(PopularConcatAdapter(MovieAdapter(result.data.third, this@MovieFragment)))
                     }
                     binding.rvMovies.adapter = concatAdapter
                 }
